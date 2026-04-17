@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
 
-{# 静的ファイルを使うため、static タグを読み込む（後で説明） #}
 <html lang="ja">
     <head>
         <meta charset="UTF-8">
@@ -11,24 +10,28 @@
 
         {% block extra_style %}{% endblock %}
 
-        {# 追加 CSS 用ブロック #}
     </head>
     <body>
 
-        {% block header %}{% endblock %}
+        {% block header %}
+            <header class="header">
+                <div class="header__title">
 
-        {# ヘッダー用ブロック #}
+                    {% block header_title %}{% endblock %}
 
-        {% block content %}{% endblock %}
+                </div>
+            </header>
+        {% endblock %}
 
-        {# 各ページのメイン要素用ブロック #}
+        <main>
+
+            {% block content %}{% endblock %}
+
+        </main>
 
         {% block footer %}{% endblock %}
 
-        {# フッター用ブロック #}
-
         {% block extra_js %}{% endblock %}
 
-        {# 追加 JavaScript 用ブロック #}
     </body>
 </html>

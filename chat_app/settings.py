@@ -124,3 +124,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LANGUAGE_CODE = "ja"
 TIME_ZONE = "Asia/Tokyo"
+
+AUTH_USER_MODEL = "main.User"

@@ -8,7 +8,6 @@
 {% block header_title %}会員登録{% endblock %}
 
 {% block content %}
-    {# signup 処理部分 #}
     <form action="{% url 'signup' %}" method="POST" class="signup-form">
         {% csrf_token %}
         <table>

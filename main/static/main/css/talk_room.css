@@ -11,26 +11,43 @@
 .chatboard__item {
     padding: 8px;
     border-bottom: 2px solid #eee;
+    display: flex;
+    margin-top: 8px;
+    border-bottom: none;
+    flex-wrap: wrap;
 }
 
-.chatboard__item:first-child {
-    border-top: 2px solid #eee;
+
+.chatboard__icon {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #003;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .chatboard__username {
-    margin: 0 0 4px;
+    margin: 0 8px;
     font-size: 0.8rem;
 }
 
 .chatboard__message {
     margin: 0;
     word-break: break-all;
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    width: 70%;
+    position: relative;
 }
 
 .chatboard__time {
-    position: absolute;
-    right: 16px;
     font-size: 0.6rem;
+    margin-left: 8px;
+    margin-right: 8px;
+    display: flex;
+    align-items: flex-end;
 }
 
 .message-form {
@@ -64,6 +81,10 @@
     border-radius: 16px;
     font-size: 1rem;
     background-color: transparent;
+}
+
+.mine {
+    flex-direction: row-reverse;
 }
 
 .back-button {

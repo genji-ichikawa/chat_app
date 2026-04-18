@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 
 from main.forms import (
     EmailChangeForm,
+    IconChangeForm,
     LoginForm,
     SignUpForm,
     TalkForm,
@@ -142,6 +143,27 @@ class PasswordChangeDoneView(auth_views.PasswordChangeDoneView):
     """Django 標準パスワード変更ビュー"""
 
     template_name = "main/password_change_done.html"
+
+
+@login_required
+def icon_change(request):
+    if request.method == "GET":
+        form = IconChangeForm(instance=request.user)
+    elif request.method == "POST":
+        form = IconChangeForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("icon_change_done")
+
+    context = {
+        "form": form,
+    }
+    return render(request, "main/icon_change.html", context)
+
+
+@login_required
+def icon_change_done(request):
+    return render(request, "main/icon_change_done.html")
 
 
 class LogoutView(auth_views.LogoutView):

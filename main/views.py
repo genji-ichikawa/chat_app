@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 
-from main.forms import LoginForm, SignUpForm
+from main.forms import LoginForm, SignUpForm, TalkForm
 from main.models import Talk
 
 User = get_user_model()
@@ -60,7 +60,19 @@ def talk_room(request, friend_id):
         | Q(sender=friend, receiver=request.user)
     ).order_by("time")
 
+    if request.method == "GET":
+        form = TalkForm()
+    elif request.method == "POST":
+        form = TalkForm(request.POST)
+        if form.is_valid():
+            new_talk = form.save(commit=False)
+            new_talk.sender = request.user
+            new_talk.receiver = friend
+            new_talk.save()
+            return redirect("talk_room", friend_id)
+
     context = {
+        "form": form,
         "friend": friend,
         "talks": talks,
     }

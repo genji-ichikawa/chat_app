@@ -1,0 +1,34 @@
+.talk-room {
+    padding-bottom: 72px;
+}
+
+.chatboard {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.chatboard__item {
+    padding: 8px;
+    border-bottom: 2px solid #eee;
+}
+
+.chatboard__item:first-child {
+    border-top: 2px solid #eee;
+}
+
+.chatboard__username {
+    margin: 0 0 4px;
+    font-size: 0.8rem;
+}
+
+.chatboard__message {
+    margin: 0;
+    word-break: break-all;
+}
+
+.chatboard__time {
+    position: absolute;
+    right: 16px;
+    font-size: 0.6rem;
+}

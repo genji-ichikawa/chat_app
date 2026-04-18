@@ -4,8 +4,15 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse_lazy
 
-from main.forms import LoginForm, SignUpForm, TalkForm
+from main.forms import (
+    EmailChangeForm,
+    LoginForm,
+    SignUpForm,
+    TalkForm,
+    UsernameChangeForm,
+)
 from main.models import Talk
 
 User = get_user_model()
@@ -22,10 +29,8 @@ def signup(request):
         form = SignUpForm(request.POST)
 
         if form.is_valid():
-            # モデルフォームは form の値を models にそのまま格納できる
             form.save()
 
-            # フォームから username と password を読み取る
             username = form.cleaned_data["username"]
             password = form.cleaned_data["password1"]
 
@@ -82,3 +87,62 @@ def talk_room(request, friend_id):
 @login_required
 def settings(request):
     return render(request, "main/settings.html")
+
+
+@login_required
+def username_change(request):
+    if request.method == "GET":
+        form = UsernameChangeForm(instance=request.user)
+    elif request.method == "POST":
+        form = UsernameChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("username_change_done")
+
+    context = {"form": form}
+    return render(request, "main/username_change.html", context)
+
+
+@login_required
+def username_change_done(request):
+    return render(request, "main/username_change_done.html")
+
+
+@login_required
+def email_change(request):
+    if request.method == "GET":
+        form = EmailChangeForm(instance=request.user)
+    elif request.method == "POST":
+        form = EmailChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect("email_change_done")
+
+    context = {"form": form}
+    return render(request, "main/email_change.html", context)
+
+
+@login_required
+def email_change_done(request):
+    return render(request, "main/email_change_done.html")
+
+
+class PasswordChangeView(auth_views.PasswordChangeView):
+    """Django 組み込みパスワード変更ビュー
+
+    template_name : 表示するテンプレート
+    success_url : 処理が成功した時のリダイレクト先
+    """
+
+    template_name = "main/password_change.html"
+    success_url = reverse_lazy("password_change_done")
+
+
+class PasswordChangeDoneView(auth_views.PasswordChangeDoneView):
+    """Django 標準パスワード変更ビュー"""
+
+    template_name = "main/password_change_done.html"
+
+
+class LogoutView(auth_views.LogoutView):
+    pass

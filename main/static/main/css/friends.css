@@ -29,3 +29,11 @@
     border-radius: 50%;
     object-fit: cover;
 }
+
+.pagination {
+    text-align: center;
+}
+
+.pagination a {
+    text-decoration: underline;
+}

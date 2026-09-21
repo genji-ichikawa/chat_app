@@ -2,9 +2,11 @@ from django.contrib import auth
 from django.contrib.auth import get_user_model
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
+from django.views.generic.list import ListView
 
 from main.forms import (
     EmailChangeForm,
@@ -50,11 +52,23 @@ class LoginView(auth_views.LoginView):
     template_name = "main/login.html"
 
 
-@login_required
-def friends(request):
-    friends = User.objects.exclude(id=request.user.id)
-    context = {"friends": friends}
-    return render(request, "main/friends.html", context)
+# @login_required
+# def friends(request):
+#     # 自分以外のユーザーを取得
+#     friends = User.objects.exclude(id=request.user.id)
+#     context = {"friends": friends}
+#     print(friends)  # 追加
+#     return render(request, "main/friends.html", context)
+
+
+class FriendsView(LoginRequiredMixin, ListView):
+    template_name = "main/friends.html"
+    paginate_by = 7
+    context_object_name = "friends"
+
+    def get_queryset(self):
+        queryset = User.objects.exclude(id=self.request.user.id)
+        return queryset
 
 
 @login_required

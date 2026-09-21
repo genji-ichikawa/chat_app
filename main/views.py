@@ -10,6 +10,7 @@ from django.views.generic.list import ListView
 
 from main.forms import (
     EmailChangeForm,
+    FriendsSearchForm,
     IconChangeForm,
     LoginForm,
     SignUpForm,
@@ -68,7 +69,23 @@ class FriendsView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         queryset = User.objects.exclude(id=self.request.user.id)
+
+        keyword = self.request.GET.get("keyword")
+        if keyword:
+            queryset = queryset.filter(username__icontains=keyword)
+
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        keyword = self.request.GET.get("keyword") or ""
+        context["keyword"] = keyword
+
+        form = FriendsSearchForm(self.request.GET)
+        context["form"] = form
+
+        return context
 
 
 @login_required

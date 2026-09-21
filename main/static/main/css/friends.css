@@ -37,3 +37,7 @@
 .pagination a {
     text-decoration: underline;
 }
+
+.search-form {
+    padding: 8px;
+}

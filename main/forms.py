@@ -17,6 +17,14 @@ class LoginForm(AuthenticationForm):
     pass
 
 
+class FriendsSearchForm(forms.Form):
+    keyword = forms.CharField(
+        label="検索",
+        required=False,
+        widget=forms.TextInput(attrs={"placeholder": "ユーザー名で検索"}),
+    )
+
+
 class TalkForm(forms.ModelForm):
     class Meta:
         model = Talk
